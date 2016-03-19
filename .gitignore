@@ -4,6 +4,9 @@
 *.o
 *.obj
 
+# Dependency files
+*.d
+
 # Precompiled Headers
 *.gch
 *.pch
@@ -26,3 +29,7 @@
 *.exe
 *.out
 *.app
+
+# Emacs temp/bak files
+\#*
+*~
