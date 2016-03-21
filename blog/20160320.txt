@@ -1,0 +1,49 @@
+20160320
+So, now I a git repository, a remote repository at git hub, which is working
+nicely with my local repsoitory, and I have a casTest application which does
+nothing.  But it's a start.
+
+So, now, I need to add a test.  First, though, I need to think through what I want casTest v2 to do.  This will be my only executable for testing.  Well, for unit testing anyway.  The first casTest, had a few things that I'm quite pleased with.  For instance, casTest v1 wasn't really just a test executable, but more of a framework for testing.  It includes the TestCase base class, a set of makefiles, and the test executable (casTest).  But, casTest isn't just an executable.  It also serves as a utility to create a test suite.  Now, there's nothing special about what I call a test suite.  It's basically just a file with more than one test in it.  It seems natural that the tests with a file of this sort would all be realted to some class or set of capabilities to be tested.  And so, they are a suite by definition....pretty much anyway.  With catTest v1, to create a new test suite just invoke it with the "-addTestSuite" option, providing a name for the new test suite.  Soemthing like this:
+
+    $ casTest -addTestSuite myNewTest
+
+casTest then invokes services (in the form of various scripts) to create an initial source file for the test suite and drops a makefile in the directory which will allow the user to the simply do something like this:
+
+    $ make test
+
+I personally think it works pretty well...but then again...you know...I wrote the thing.
+
+Tests in casTest v1 are built into shared libraries rather than standalone executables.  I had recently done some work on something at work which involved plugins.  I thought, and still think, they are way cool, so, to invoke a test with casTest v1, you'd just pass the name of the test library in on the commandline:
+
+   $ casTest myNewTest.test
+
+This is what the make file does for each test suite within the directory when you run 'make test'.  Note that even though the provided make file creates a file with a '.test' appendix, this file is nothing more than a shared library (a .so in disguise).  
+
+While I do like the use of casTest as bith a test executable and as a utility, I think the interface should be more consistent.  It should probably have an interface more like cleartool, git, or any number of utilities which are invoked with a command followed by aruments.  So, casTest v2 will have the following basic commandline interface:
+
+    $ casTest <command> <args...>
+
+Args should probably hypenated as a matter of convention, but could also be somewhat dependant on the command.  casTest v2 should also allow plugins to allow users to expand its capabilities.  I mean, who knows what I or some other user will want to do in the future?  Anyway, casTest will use the following syntax to run a test:
+
+    $ casTest runTest <test1 test2 ...>
+
+It will use the following to add a test suite:
+
+   $ casTest addTestSuite <testName>
+
+I'm not sure if a programmer would need to add multiple tests with a single command, but I really don't think would need such a capability.  So for now, we'll just keep the addTestSuite option to a single test.
+
+So, it looks like what we have is a nice command pattern going.  So, I think I know know the test that I need to write.  As I think I mentioned, for now, we'll keep the tests in the same executable as casTest.  At some point we'll be able to refactor to be more like what we want to see in the final product.
+
+So, now to write the test.
+
+-----
+OK, I now have a simple Command asbract class and a TestCommand.  That should do for now.  For the record.  I conducted the following:
+
+    - added a function call to create a test from the passed parameters: this failed to build since I didn't have the function
+    - added the function and an abstract class Command: still couldn't build
+    - added a TestCommand concrete class with an exec() which returned false: built, ran, and failed
+    - modified TestCommand to pass
+
+
+Randy
