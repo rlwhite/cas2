@@ -38,5 +38,4 @@ LPATHS += -L $(CAS_LIB)
 LIBS += -lcasTest
 
 $(TGT): $(OBJS) $(TDEPS)
-	$(CC) -o $@ $(INCLUDES) $(LFLAGS) $(LPATHS) $(OBJS) $(LIBS)
-
+	$(CXX) -o $@ $(INCLUDES) $(LFLAGS) $(LPATHS) $(OBJS) $(LIBS)

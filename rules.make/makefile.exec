@@ -25,5 +25,5 @@
 include $(CAS_DIR)/rules.make/makefile.common
 
 $(TGT): $(OBJS) $(TDEPS)
-	$(CC) -o $@ $(INCLUDES) $(LFLAGS) $(LPATHS) $(OBJS) $(LIBS)
+	$(CXX) -o $@ $(INCLUDES) $(LFLAGS) $(LPATHS) $(OBJS) $(LIBS)
 

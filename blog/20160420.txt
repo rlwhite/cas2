@@ -1,0 +1,19 @@
+Well, bummer!  It's been a full month since I've done done work on cas2.
+
+OK.  So let's do a bit now.  
+
+I've rethought the idea of having a single utility to run the tests and for 
+doing utility test maintenance such as adding test suites/tests.  I now
+think that the test runner, should be just that.  It should make the test
+runner code a whole lot cleaner.  I think there could still be a place
+for a swiss army knife type of utility, but if we have one, I'm not sure it
+should run tests.  If it does, it would probably just execute the test runner
+code.  This would like be a plug-in to the utility.
+
+Also, I've run across a very good makefile website by Paul D. Smith 
+(http://make.mad-scientists.net).  I think I'd like to start, well re-start,
+by getting the project's make system redone in keeping with Paul's rules.
+
+OK, so....let's get to it.
+
+

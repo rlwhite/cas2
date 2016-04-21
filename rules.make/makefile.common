@@ -23,10 +23,20 @@
 #	LPATHS : Library paths for linker
 ###########################################################################
 	
-CC := /usr/bin/g++
+DEPDIR := .deps
+$(shell mkdir -p $(DEPDIR) >/dev/null)
+DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.Td
+
+CC := /usr/bin/gcc
+CXX := /usr/bin/g++
+
 CFLAGS += -D_XOPEN_SOURCE=700
 
 INCLUDES += -I$(CAS_DIR)/include
+
+COMPILE.cc = $(CXX) $(INCLUDES) $(DEPFLAGS) $(CFLAGS) \
+             $(CPPFLAGS) $(TARGET_ARCH) -c
+POSTCOMPILE = mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d
 
 #generated sources from .tpp files
 GSRC := $(TSTSRC:.tpp=$(TAG).cpp)
@@ -56,24 +66,23 @@ all: $(TGT)
 
 build: clean linkHeaders all
 
-%$(TAG).d : %.cpp
-	@set -e; rm -f $@; \
-	$(CC) -M $(INCLUDES) $< > $@.$$$$; \
-	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
-	rm -f $@.$$$$
-
-%$(TAG).o : %.cpp
-	$(CC) -o $@ $(INCLUDES) $(CFLAGS) -c $<
+%$(TAG).o : %.cpp $(DEPDIR)/%.d
+	$(COMPILE.cc) $(OUTPUT_OPTION) $<
+	$(POSTCOMPILE)
 
 %$(TAG).cpp : %.tpp
 	$(CAS_DIR)/dev-scripts/tpp2cpp.bash $<
 
--include $(SRCS:.cpp=$(TAG).d)
+$(DEPDIR)/%.d: ;
+.PRECIOUS: $(DEPDIR)/%.d
+
+#-include $(SRCS:.cpp=$(TAG).d)
 
 .PHONY: clean
 clean:
-	rm -f $(OBJS) $(DEPS) $(TGT) \
+	rm -f $(OBJS) $(TGT) \
 	   $(TGT).gcno $(GCNOTES) $(GCDATS) *.d.*
+	rm -rf $(DEPDIR)
 
 .PHONY: veryclean
 distclean: clean
@@ -94,3 +103,5 @@ uninstall:
 .PHONY: test
 test: install
 	$(CAS_BIN)/casTest $(TGT)
+
+-include $(patsubst %,$(DEPDIR)/%.d,$(basename $(SRCS)))

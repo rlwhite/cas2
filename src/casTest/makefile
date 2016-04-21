@@ -27,9 +27,4 @@ LIBS :=
 #Addition target dependencies.
 TDEPS :=
 
-##### TODO #####
-# Include the CAS makefile that matches the type of 
-# target you are building with this makefile by uncommenting
-# the appropriate line below.
-################
 include $(CAS_DIR)/rules.make/makefile.exec
