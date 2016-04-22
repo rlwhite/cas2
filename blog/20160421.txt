@@ -1,0 +1,39 @@
+The changes to the CAS make files didn't quite go as I expected.  On finding
+Paul D. Smith's website, I fully expected to basically start over.  But, I
+didn't quite see a full make system.  This wasn't due to the quality of his
+site, I think it is extremely good.  Rather, being a bit impatient, I didn't
+read the material as thoroughly as I should have.  In the end, I incorporated
+his dependency generation code and a few other of his ideas into my existing
+makefiles.  I think this gives CAS a pretty good set of make files, which will
+be easy enough to change should the need arise.  I think I may be able to also
+incorporate these ideas into the make files at work.
+
+Tonight, I begin to redo casTest with the though in mind that this utility
+should simply run tests.  The tests will be in the form of shared libraries
+just as the first iteration of casTest.  So, in the end, it looks like we'll
+need the following classes:
+    - Library loader
+    - TestCase interface
+    - A group of functions for comparing actual with expected results
+      -- These will likely need to be in the form of a set of macros which
+         call underlying functions
+    - A mechanism to simplify the creation of test cases
+      -- Each test case will likely be created by deriving a class from the
+         TestCase interface
+      -- Consider using the NVI pattern...though this isn't strictly necessary
+         - Are there advantages here???
+
+So, we'll use a test driven development approach and begin with something like:
+
+    int main(int argc, const char* const argv[])
+    {
+        std::cout << "Nothing to do here. " << std::endl;
+
+        return -1;
+    }
+
+So, let's get started.  (We won't get far as it's late and Karen is ready to
+watch Limitless, but, we can at least get the above code done.
+
+
+
