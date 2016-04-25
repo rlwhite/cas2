@@ -5,9 +5,10 @@
 using namespace std;
 
 #define print(msg) cout << msg << endl
-#define printResult(errs) cout <<                                 \
-                                 (0 == errs ? "All tests PASSED": \
-                                  "One or more tests FAILED") << endl
+#define printResult(errs, skips) cout <<				\
+    (0 == errs ? "All tests PASSED":					\
+                 "One or more tests FAILED") << 			\
+    (0 == skips ? "" : " (One or more tests SKIPPED)") << endl
 
 struct TestCase
 {
@@ -147,6 +148,7 @@ struct SkippedTestTest : SkippedTest
 	catch(const TestCase::TestSkipped& x)
 	{
 	    success = true;
+	    throw;
 	}
 
 	if(!success)
@@ -158,25 +160,32 @@ int runTests(std::vector<TestCase*>& tests)
 {
     print("Running " << tests.size() << " tests.");
     int errCount(0);
+    int skippedCount(0);
 
     for(size_t t(0); t < tests.size(); ++t)
     {
 	int oldErrCount(errCount);
+	int oldSkippedCount(skippedCount);
 
 	try
 	{
 	    tests[t]->run();
 	}
-	catch(const TestCase::TestFailed& x)
+	catch(const TestCase::TestFailed&)
 	{
 	    ++errCount;
 	}
+	catch(const TestCase::TestSkipped&)
+	{
+	    ++skippedCount;
+	}
 	
-	print("\t" << (t + 1) << ": " << tests[t]->name() << ": " <<
-	      (oldErrCount == errCount ? "OK" : "NOT OK"));
+	print("\t" << (t + 1) << ". " << tests[t]->name() << ": " <<
+	      (oldSkippedCount == skippedCount ? 
+	       (oldErrCount == errCount ? "OK" : "NOT OK") : "SKIPPED"));
     }
     
-    printResult(errCount);
+    printResult(errCount, skippedCount);
 
     return errCount;
 }
