@@ -148,7 +148,6 @@ struct SkippedTestTest : SkippedTest
 	catch(const TestCase::TestSkipped& x)
 	{
 	    success = true;
-	    throw;
 	}
 
 	if(!success)
@@ -156,45 +155,128 @@ struct SkippedTestTest : SkippedTest
     }
 };
 
-int runTests(std::vector<TestCase*>& tests)
+struct TestRunner
 {
-    print("Running " << tests.size() << " tests.");
-    int errCount(0);
-    int skippedCount(0);
+    TestRunner()
+	: failed_(0),
+	  skipped_(0)
+    {}
 
-    for(size_t t(0); t < tests.size(); ++t)
+    size_t getFailed() const
     {
-	int oldErrCount(errCount);
-	int oldSkippedCount(skippedCount);
-
-	try
-	{
-	    tests[t]->run();
-	}
-	catch(const TestCase::TestFailed&)
-	{
-	    ++errCount;
-	}
-	catch(const TestCase::TestSkipped&)
-	{
-	    ++skippedCount;
-	}
-	
-	print("\t" << (t + 1) << ". " << tests[t]->name() << ": " <<
-	      (oldSkippedCount == skippedCount ? 
-	       (oldErrCount == errCount ? "OK" : "NOT OK") : "SKIPPED"));
+	return failed_;
     }
-    
-    printResult(errCount, skippedCount);
 
-    return errCount;
-}
+    size_t getSkipped() const
+    {
+	return skipped_;
+    }
+
+    void runTests(std::vector<TestCase*>& tests)
+    {
+	print("Running " << tests.size() << " tests.");
+	
+	for(size_t t(0); t < tests.size(); ++t)
+	{
+	    int previousFailed(failed_);
+	    int previousSkipped(skipped_);
+	    
+	    try
+	    {
+		tests[t]->run();
+	    }
+	    catch(const TestCase::TestFailed&)
+	    {
+		++failed_;
+	    }
+	    catch(const TestCase::TestSkipped&)
+	    {
+		++skipped_;
+	    }
+	    
+	    print("\t" << (t + 1) << ". " << tests[t]->name() << ": " <<
+		  (previousSkipped == skipped_ ? 
+		   (previousFailed == failed_ ? "OK" : "NOT OK") : "SKIPPED"));
+	}
+    
+	printResult(failed_, skipped_);
+    }
+
+private:
+    size_t failed_;
+    size_t skipped_;
+};
+
+struct TestRunnerTest : TestCase
+{
+    TestRunnerTest()
+	: runner_(),
+	  tests_()
+    {}
+
+    ~TestRunnerTest()
+    {
+	for(TestCase* t : tests_)
+	    delete t;
+
+	tests_.clear();
+    }
+
+    void run()
+    {
+	runner_.runTests(tests_);
+    }
+
+protected:
+    void addTest(TestCase* test)
+    {
+	tests_.push_back(test);
+    }
+
+    TestRunner runner_;
+
+private:
+    std::vector<TestCase*> tests_;
+};
+
+struct TestRunnerReportsAFailureWhenATestFails : TestRunnerTest
+{
+    TestRunnerReportsAFailureWhenATestFails()
+	: TestRunnerTest()
+    {
+	setName("TestRunnerReportsAFailureWhenATestFails");
+    }
+
+    void run()
+    {
+	addTest(new PassingTest());
+	addTest(new FailingTest());
+	addTest(new SkippedTest());
+
+	TestRunnerTest::run();
+
+	int errCount(runner_.getFailed());
+
+	if(1 != errCount)
+	    throw TestCase::TestFailed();
+    }
+};
+
+struct TestRunnerReportsNoFailuresWhenAllTestsPass
+{
+
+
+private:
+};
+
 
 void createTests(std::vector<TestCase*>& tests)
 {
     tests.push_back(new PassingTestTest());
     tests.push_back(new FailingTestTest());
     tests.push_back(new SkippedTestTest());
+    //tests.push_back(new TestRunnerReportsNoFailuresWhenAllTestsPass());
+    tests.push_back(new TestRunnerReportsAFailureWhenATestFails());
 }
 
 void deleteTests(std::vector<TestCase*>& tests)
@@ -211,7 +293,10 @@ int main(int argc, const char* const argv[])
 
     createTests(tests);
 
-    int errCount(runTests(tests));
+    TestRunner runner;
+    runner.runTests(tests);
+
+    int errCount(runner.getFailed());
 
     deleteTests(tests);
 
