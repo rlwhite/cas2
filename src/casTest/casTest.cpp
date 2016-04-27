@@ -46,18 +46,16 @@ struct PassingTest : TestCase
     }
 
     void run()
-    {
-
-    }
+    {}
 
 private:
 };
 
-struct PassingTestTest : PassingTest
+struct PassingTestThrowsNoExceptions : PassingTest
 {
-    PassingTestTest()
+    PassingTestThrowsNoExceptions()
     {
-	setName("PassingTestTest");
+	setName("PassingTestThrowsNoExceptions");
     }
 
     void run()
@@ -66,9 +64,9 @@ struct PassingTestTest : PassingTest
 	{
 	    PassingTest::run();
 	}
-	catch(const TestCase::TestFailed& x)
+	catch(...)
 	{
-	    throw;
+	    throw TestCase::TestFailed();
 	}
     }
 
@@ -90,11 +88,11 @@ struct FailingTest : TestCase
 private:
 };
 
-struct FailingTestTest : FailingTest
+struct FailingTestThrowsTestFailed : FailingTest
 {
-    FailingTestTest()
+    FailingTestThrowsTestFailed()
     {
-	setName("FailingTestTest");
+	setName("FailingTestThrowsTestFailed");
     }
 
     void run()
@@ -130,11 +128,11 @@ struct SkippedTest : TestCase
 private:
 };
 
-struct SkippedTestTest : SkippedTest
+struct SkippedTestThrowsTestSkipped : SkippedTest
 {
-    SkippedTestTest()
+    SkippedTestThrowsTestSkipped()
     {
-	setName("SkippedTestTest");
+	setName("SkippedTestThrowsTestSkipped");
     }
 
     void run()
@@ -175,26 +173,17 @@ struct TestRunner
     void runTests(std::vector<TestCase*>& tests)
     {
 	print("Running " << tests.size() << " tests.");
+	size_t testNumber(0);
 	
-	for(size_t t(0); t < tests.size(); ++t)
+	for(TestCase* t : tests)
 	{
 	    int previousFailed(failed_);
 	    int previousSkipped(skipped_);
 	    
-	    try
-	    {
-		tests[t]->run();
-	    }
-	    catch(const TestCase::TestFailed&)
-	    {
-		++failed_;
-	    }
-	    catch(const TestCase::TestSkipped&)
-	    {
-		++skipped_;
-	    }
+	    tryTest(t);
 	    
-	    print("\t" << (t + 1) << ". " << tests[t]->name() << ": " <<
+	    ++testNumber;
+	    print("\t" << testNumber << ". " << t->name() << ": " <<
 		  (previousSkipped == skipped_ ? 
 		   (previousFailed == failed_ ? "OK" : "NOT OK") : "SKIPPED"));
 	}
@@ -203,6 +192,22 @@ struct TestRunner
     }
 
 private:
+    void tryTest(TestCase* test)
+    {
+	try
+	{
+	    test->run();
+	}
+	catch(const TestCase::TestFailed&)
+	{
+	    ++failed_;
+	}
+	catch(const TestCase::TestSkipped&)
+	{
+	    ++skipped_;
+	}
+    }
+
     size_t failed_;
     size_t skipped_;
 };
@@ -272,17 +277,17 @@ private:
 
 void createTests(std::vector<TestCase*>& tests)
 {
-    tests.push_back(new PassingTestTest());
-    tests.push_back(new FailingTestTest());
-    tests.push_back(new SkippedTestTest());
+    tests.push_back(new PassingTestThrowsNoExceptions());
+    tests.push_back(new FailingTestThrowsTestFailed());
+    tests.push_back(new SkippedTestThrowsTestSkipped());
     //tests.push_back(new TestRunnerReportsNoFailuresWhenAllTestsPass());
     tests.push_back(new TestRunnerReportsAFailureWhenATestFails());
 }
 
 void deleteTests(std::vector<TestCase*>& tests)
 {
-    for(size_t t(0); t < tests.size(); ++t)
-	delete tests[t];
+    for(TestCase* t : tests)
+	delete t;
 
     tests.clear();
 }
