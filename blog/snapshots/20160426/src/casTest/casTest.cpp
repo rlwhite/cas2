@@ -1,11 +1,14 @@
 #include <iostream>
 #include <memory>
-#include <sstream>
 #include <string>
 #include <vector>
 using namespace std;
 
 #define print(msg) cout << msg << endl
+#define printResult(errs, skips) cout <<				\
+    (0 == errs ? "All tests PASSED":					\
+                 "One or more tests FAILED") << 			\
+    (0 == skips ? "" : " (One or more tests SKIPPED)") << endl
 
 struct TestCase
 {
@@ -153,8 +156,7 @@ struct SkippedTestThrowsTestSkipped : SkippedTest
 struct TestRunner
 {
     TestRunner()
-	: testNumber_(0),
-	  failed_(0),
+	: failed_(0),
 	  skipped_(0)
     {}
 
@@ -171,36 +173,25 @@ struct TestRunner
     void runTests(std::vector<TestCase*>& tests)
     {
 	print("Running " << tests.size() << " tests.");
+	size_t testNumber(0);
 	
-	testNumber_ = 0;
-
 	for(TestCase* t : tests)
-	    runTest(t);
+	{
+	    int previousFailed(failed_);
+	    int previousSkipped(skipped_);
+	    
+	    tryTest(t);
+	    
+	    ++testNumber;
+	    print("\t" << testNumber << ". " << t->name() << ": " <<
+		  (previousSkipped == skipped_ ? 
+		   (previousFailed == failed_ ? "OK" : "NOT OK") : "SKIPPED"));
+	}
     
 	printResult(failed_, skipped_);
     }
 
 private:
-    void printResult(size_t errs, size_t skips)
-    {
-	cout <<	(0 == errs ? "All tests PASSED": "One or more tests FAILED")
-	     <<	(0 == skips ? "" : " (One or more tests SKIPPED)")
-	     << endl;
-    }
-
-    void runTest(TestCase* test)
-    {
-	int previousFailed(failed_);
-	int previousSkipped(skipped_);
-	
-	++testNumber_;
-	tryTest(test);
-	
-	print("\t" << testNumber_ << ". " << test->name() << ": " <<
-	      (previousSkipped == skipped_ ? 
-	       (previousFailed == failed_ ? "OK" : "NOT OK") : "SKIPPED"));
-    }
-
     void tryTest(TestCase* test)
     {
 	try
@@ -217,7 +208,6 @@ private:
 	}
     }
 
-    size_t testNumber_;
     size_t failed_;
     size_t skipped_;
 };
@@ -239,10 +229,6 @@ struct TestRunnerTest : TestCase
 
     void run()
     {
-	addTest(new PassingTest());
-	addTest(new FailingTest());
-	addTest(new SkippedTest());
-
 	runner_.runTests(tests_);
     }
 
@@ -268,6 +254,10 @@ struct TestRunnerReportsAFailureWhenATestFails : TestRunnerTest
 
     void run()
     {
+	addTest(new PassingTest());
+	addTest(new FailingTest());
+	addTest(new SkippedTest());
+
 	TestRunnerTest::run();
 
 	int errCount(runner_.getFailed());
