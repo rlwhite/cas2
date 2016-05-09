@@ -8,7 +8,13 @@
 # Copyright (c) 2016 Randall Lee White
 
 TGT := casTest
-SRCS := casTest.cpp
+SRCS := \
+ casTest.cpp \
+ basicTests.cpp \
+ basicTestTests.cpp \
+ testCase.cpp \
+ testRunner.cpp \
+ testRunnerTests.cpp
 
 INCLUDES := 
 
