@@ -1,6 +1,8 @@
 #ifndef TESTRUNNER_H
 #define TESTRUNNER_H
 
+#include "testResult.h"
+
 #include <cstddef>
 #include <string>
 #include <vector>
@@ -20,10 +22,10 @@ private:
     void printHeader(size_t testCount) const;
     void printSummary(size_t errs, size_t skips) const;
     void printTestResult(const std::string& testName,
-			 const std::string& result) const;
+			 TestResult::Result result) const;
 
-    void runTest(TestCase* test);
-    void tryTest(TestCase* test);
+    TestResult::Result runTest(TestCase* test);
+    TestResult::Result tryTest(TestCase* test);
 
     size_t testNumber_;
     size_t failed_;

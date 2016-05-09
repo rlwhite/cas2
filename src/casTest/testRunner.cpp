@@ -27,7 +27,8 @@ void TestRunner::runTests(std::vector<TestCase*>& tests)
     testNumber_ = 0;
 
     for(TestCase* t : tests)
-	runTest(t);
+	printTestResult(t->name(),
+			runTest(t));
     
     printSummary(failed_, skipped_);
 }
@@ -45,30 +46,29 @@ void TestRunner::printSummary(size_t errs, size_t skips) const
 }
 
 void TestRunner::printTestResult(const std::string& testName,
-				 const std::string& result) const
+				 TestResult::Result result) const
 {
 	
     std::cout << "\t" << testNumber_ << ". " << testName
-	      << ": " << result << std::endl;
+	      << ": " << TestResult::toString(result) << std::endl;
 }
 
-void TestRunner::runTest(TestCase* test)
+TestResult::Result TestRunner::runTest(TestCase* test)
 {
-    int previousFailed(failed_);
-    int previousSkipped(skipped_);
-	
     ++testNumber_;
     test->setUp();
-    tryTest(test);
+
+    TestResult::Result res(tryTest(test));
+
     test->tearDown();
 
-    printTestResult(test->name(),
-	previousSkipped == skipped_ ? 
-	(previousFailed == failed_ ? "OK" : "NOT OK") : "SKIPPED");
+    return res;
 }
 
-void TestRunner::tryTest(TestCase* test)
+TestResult::Result TestRunner::tryTest(TestCase* test)
 {
+    TestResult::Result res(TestResult::Passed);
+
     try
     {
 	test->run();
@@ -76,10 +76,14 @@ void TestRunner::tryTest(TestCase* test)
     catch(const TestCase::TestFailed&)
     {
 	++failed_;
+	res = TestResult::Failed;
     }
     catch(const TestCase::TestSkipped&)
     {
 	++skipped_;
+	res = TestResult::Skipped;
     }
+
+    return res;
 }
 

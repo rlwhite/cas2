@@ -2,6 +2,7 @@
 #include "testCase.h"
 #include "basicTests.h"
 #include "basicTestTests.h"
+#include "testResultTests.h"
 #include "testRunner.h"
 #include "testRunnerTests.h"
 
@@ -22,6 +23,9 @@ void createTests(std::vector<TestCase*>& tests)
     tests.push_back(new TestRunnerReportsNoFailuresWhenAllTestsPass());
     tests.push_back(new TestRunnerReportsAFailureWhenATestFails());
     tests.push_back(new TestRunnerReportsNoFailuresWhenAllTestsPassOrSkip());
+    tests.push_back(new TestResultToStringReturnsPassedForPassed());
+    tests.push_back(new TestResultToStringReturnsFailedForFailed());
+    tests.push_back(new TestResultToStringReturnsSkippedForSkipped());
 }
 
 void deleteTests(std::vector<TestCase*>& tests)
