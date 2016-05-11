@@ -13,6 +13,8 @@ SRCS := \
  basicTests.cpp \
  basicTestTests.cpp \
  testCase.cpp \
+ testReporter.cpp \
+ testReporterTests.cpp \
  testResult.cpp \
  testResultTests.cpp \
  testRunner.cpp \
