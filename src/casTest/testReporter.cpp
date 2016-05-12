@@ -13,3 +13,18 @@ std::ostream& TestReporter::printPlan(size_t testCount)
 
     return out_;
 }
+
+std::ostream& TestReporter::printResult(TestResult::Result res,
+					size_t testNumber,
+					const std::string& testName)
+{
+    out_ << TestResult::toString(res)
+	 << " " << testNumber
+	 << " - " << testName
+	 << std::endl;
+    
+    return out_;
+}
+
+
+

@@ -1,23 +1,80 @@
 #include "testReporterTests.h"
 
 #include "testReporter.h"
+#include "testResult.h"
 
-#include <sstream>
+TestReporterTest::TestReporterTest()
+    : outStream_(),
+      reporter_(0)
+{
+    reporter_ = new TestReporter(outStream_);
+}
+
+TestReporterTest::~TestReporterTest()
+{
+    delete reporter_;
+}
 
 TestReporterPrintsTestPlan::TestReporterPrintsTestPlan()
+    : TestReporterTest()
 {
     setName("TestReporterPrintsTestPlan");
 }
 
 void TestReporterPrintsTestPlan::run()
 {
-    std::stringstream outStream;
-    TestReporter reporter(outStream);
-    
-    reporter.printPlan(10);
+    reporter_->printPlan(10);
 
-    const std::string& output(outStream.str());
-
-    if("1..10\n" != output)
+    if("1..10\n" != outStream_.str())
 	throw TestCase::TestFailed();
 }
+
+TestReporterPrintsOKForPassedTest::TestReporterPrintsOKForPassedTest()
+    : TestReporterTest()
+{
+    setName("TestReporterPrintsOKForPassedTest");
+}
+
+void TestReporterPrintsOKForPassedTest::run()
+{
+    reporter_->printResult(TestResult::Passed,
+			   1,
+			   "MyFakeTest");
+
+    if("OK 1 - MyFakeTest\n" != outStream_.str())
+	throw TestCase::TestFailed();
+}
+
+TestReporterPrintsNOTOKForFailedTest::TestReporterPrintsNOTOKForFailedTest()
+    : TestReporterTest()
+{
+    setName("TestReporterPrintsNOTOKForFailedTest");
+}
+
+void TestReporterPrintsNOTOKForFailedTest::run()
+{
+    reporter_->printResult(TestResult::Failed,
+			   2,
+			   "MyFakeFailedTest");
+
+    if("NOT OK 2 - MyFakeFailedTest\n" != outStream_.str())
+	throw TestCase::TestFailed();
+}
+
+TestReporterPrintsSKIPPEDForSkippedTest::
+TestReporterPrintsSKIPPEDForSkippedTest()
+    : TestReporterTest()
+{
+    setName("TestReporterPrintsSKIPPEDForSkippedTest");
+}
+
+void TestReporterPrintsSKIPPEDForSkippedTest::run()
+{
+    reporter_->printResult(TestResult::Skipped,
+			   3,
+			   "MyFakeSkippedTest");
+
+    if("SKIPPED 3 - MyFakeSkippedTest\n" != outStream_.str())
+	throw TestCase::TestFailed();
+}
+

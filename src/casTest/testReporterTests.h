@@ -3,9 +3,44 @@
 
 #include "testCase.h"
 
-struct TestReporterPrintsTestPlan : TestCase
+#include <sstream>
+
+struct TestReporter;
+
+struct TestReporterTest : TestCase
+{
+    TestReporterTest();
+    virtual ~TestReporterTest();
+
+protected:
+    std::stringstream outStream_;
+    TestReporter* reporter_;
+};
+
+struct TestReporterPrintsTestPlan : TestReporterTest
 {
     TestReporterPrintsTestPlan();
+    
+    void run();
+};
+
+struct TestReporterPrintsOKForPassedTest : TestReporterTest
+{
+    TestReporterPrintsOKForPassedTest();
+    
+    void run();
+};
+
+struct TestReporterPrintsNOTOKForFailedTest : TestReporterTest
+{
+    TestReporterPrintsNOTOKForFailedTest();
+
+    void run();
+};
+
+struct TestReporterPrintsSKIPPEDForSkippedTest : TestReporterTest
+{
+    TestReporterPrintsSKIPPEDForSkippedTest();
 
     void run();
 };

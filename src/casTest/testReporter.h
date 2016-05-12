@@ -9,6 +9,9 @@ struct TestReporter
     TestReporter(std::ostream& outStream = std::cout);
 
     std::ostream& printPlan(size_t testCount);
+    std::ostream& printResult(TestResult::Result result,
+			      size_t testNumber,
+			      const std::string& testName);
 
 private:
 

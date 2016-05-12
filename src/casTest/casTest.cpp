@@ -28,6 +28,9 @@ void createTests(std::vector<TestCase*>& tests)
     tests.push_back(new TestResultToStringReturnsFailedForFailed());
     tests.push_back(new TestResultToStringReturnsSkippedForSkipped());
     tests.push_back(new TestReporterPrintsTestPlan());
+    tests.push_back(new TestReporterPrintsOKForPassedTest());
+    tests.push_back(new TestReporterPrintsNOTOKForFailedTest());
+    tests.push_back(new TestReporterPrintsSKIPPEDForSkippedTest());
 }
 
 void deleteTests(std::vector<TestCase*>& tests)
