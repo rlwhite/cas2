@@ -1,14 +1,21 @@
 #include "testRunner.h"
 
 #include "testCase.h"
+#include "testReporter.h"
 
 #include <iostream>
 
-TestRunner::TestRunner()
-    : testNumber_(0),
+TestRunner::TestRunner(TestReporter* reporter)
+    : reporter_(reporter),
+      testNumber_(0),
       failed_(0),
       skipped_(0)
 {}
+
+TestRunner::~TestRunner()
+{
+    delete reporter_;
+}
 
 size_t TestRunner::getFailed() const
 {
@@ -30,27 +37,29 @@ void TestRunner::runTests(std::vector<TestCase*>& tests)
 	printTestResult(t->name(),
 			runTest(t));
     
-    printSummary(failed_, skipped_);
+    printSummary(tests.size(), failed_, skipped_);
 }
 
 void TestRunner::printHeader(size_t testCount) const
 {
-    std::cout << "Running " << testCount << " tests." << std::endl;
+    reporter_->printPlan(testCount);
 }
 
-void TestRunner::printSummary(size_t errs, size_t skips) const
+void TestRunner::printSummary(size_t testCount,
+			      size_t errs,
+			      size_t skips) const
 {
-    std::cout << (0 == errs ? "All tests PASSED": "One or more tests FAILED")
-	 << (0 == skips ? "" : " (One or more tests SKIPPED)")
-	      << std::endl;
+    reporter_->printSummary(testCount,
+			    errs,
+			    skips);
 }
 
 void TestRunner::printTestResult(const std::string& testName,
 				 TestResult::Result result) const
 {
-	
-    std::cout << "\t" << testNumber_ << ". " << testName
-	      << ": " << TestResult::toString(result) << std::endl;
+    reporter_->printResult(result,
+			   testNumber_,
+			   testName);
 }
 
 TestResult::Result TestRunner::runTest(TestCase* test)

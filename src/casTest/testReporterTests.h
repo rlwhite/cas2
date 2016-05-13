@@ -45,4 +45,11 @@ struct TestReporterPrintsSKIPPEDForSkippedTest : TestReporterTest
     void run();
 };
 
+struct TestReporterPrintsTestSummary : TestReporterTest
+{
+    TestReporterPrintsTestSummary();
+
+    void run();
+};
+
 #endif //TESTREPORTERTESTS_H

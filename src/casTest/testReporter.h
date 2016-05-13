@@ -7,11 +7,17 @@
 struct TestReporter
 {
     TestReporter(std::ostream& outStream = std::cout);
+    virtual ~TestReporter();
 
-    std::ostream& printPlan(size_t testCount);
-    std::ostream& printResult(TestResult::Result result,
+    void printPlan(size_t testCount);
+
+    void printResult(TestResult::Result result,
 			      size_t testNumber,
 			      const std::string& testName);
+
+    void printSummary(size_t testsRan,
+		      size_t testsFailed,
+		      size_t testsSkipped);
 
 private:
 

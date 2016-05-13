@@ -78,3 +78,19 @@ void TestReporterPrintsSKIPPEDForSkippedTest::run()
 	throw TestCase::TestFailed();
 }
 
+TestReporterPrintsTestSummary::TestReporterPrintsTestSummary()
+    : TestReporterTest()
+{
+    setName("TestReporterPrintsTestSummary");
+}
+
+void TestReporterPrintsTestSummary::run()
+{
+    reporter_->printSummary(10,
+			    1,
+			    2);
+
+    if("Tests ran: 10\n\tFAILED: 1\n\tSKIPPED: 2\n" !=
+       outStream_.str())
+	throw TestCase::TestFailed();
+}

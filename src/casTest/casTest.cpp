@@ -5,6 +5,7 @@
 #include "testResultTests.h"
 #include "testRunner.h"
 #include "testRunnerTests.h"
+#include "testReporter.h"
 #include "testReporterTests.h"
 
 #include <iostream>
@@ -31,6 +32,7 @@ void createTests(std::vector<TestCase*>& tests)
     tests.push_back(new TestReporterPrintsOKForPassedTest());
     tests.push_back(new TestReporterPrintsNOTOKForFailedTest());
     tests.push_back(new TestReporterPrintsSKIPPEDForSkippedTest());
+    tests.push_back(new TestReporterPrintsTestSummary());
 }
 
 void deleteTests(std::vector<TestCase*>& tests)
@@ -47,7 +49,7 @@ int main(int argc, const char* const argv[])
 
     createTests(tests);
 
-    TestRunner runner;
+    TestRunner runner(new TestReporter());
     runner.runTests(tests);
 
     int errCount(runner.getFailed());

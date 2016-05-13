@@ -2,8 +2,22 @@
 
 #include "basicTests.h"
 
+#include "testReporter.h"
+
+struct MockTestReporter : TestReporter
+{
+    void printHeader(size_t testCount)
+    {}
+
+    void printResult(TestResult::Result,
+		     size_t,
+		     const std::string&);
+
+    void printSummary(size_t, size_t, size_t);
+};
+
 TestRunnerTest::TestRunnerTest()
-    : runner_(),
+    : runner_(new MockTestReporter()),
       tests_()
 {}
 
