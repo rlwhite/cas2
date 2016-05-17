@@ -11,8 +11,6 @@ struct TestResult
 	Failed,
 	Skipped
     };
-
-    static std::string toString(Result result);
 };
 
 #endif //TESTRESULT_H

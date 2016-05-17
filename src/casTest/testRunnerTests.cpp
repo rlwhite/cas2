@@ -6,14 +6,30 @@
 
 struct MockTestReporter : TestReporter
 {
-    void printHeader(size_t testCount)
+    MockTestReporter()
+	: TestReporter(std::cout)
+    {}
+
+    virtual ~MockTestReporter()
+    {}
+
+    void printPlan(size_t testCount)
     {}
 
     void printResult(TestResult::Result,
 		     size_t,
-		     const std::string&);
+		     const std::string&)
+    {}
 
-    void printSummary(size_t, size_t, size_t);
+    void printSummary(size_t, size_t, size_t)
+    {}
+
+    std::string resultToString(TestResult::Result result)
+    {
+	static std::string resString[3] = {"Passed", "Failed", "Skipped"};
+
+	return resString[result];
+    }
 };
 
 TestRunnerTest::TestRunnerTest()

@@ -9,18 +9,22 @@ struct TestReporter
     TestReporter(std::ostream& outStream = std::cout);
     virtual ~TestReporter();
 
-    void printPlan(size_t testCount);
+    virtual void printPlan(size_t testCount) = 0;
 
-    void printResult(TestResult::Result result,
-			      size_t testNumber,
-			      const std::string& testName);
+    virtual void printResult(TestResult::Result result,
+			     size_t testNumber,
+			     const std::string& testName) = 0;
 
-    void printSummary(size_t testsRan,
-		      size_t testsFailed,
-		      size_t testsSkipped);
+    virtual void printSummary(size_t testsRan,
+			      size_t testsFailed,
+			      size_t testsSkipped) = 0;
+
+    virtual std::string resultToString(TestResult::Result result) = 0;
+
+protected:
+    std::ostream& outStream();
 
 private:
-
     std::ostream& out_;
 };
 

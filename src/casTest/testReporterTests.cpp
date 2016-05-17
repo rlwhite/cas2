@@ -1,13 +1,13 @@
 #include "testReporterTests.h"
 
-#include "testReporter.h"
+#include "tapTestReporter.h"
 #include "testResult.h"
 
 TestReporterTest::TestReporterTest()
     : outStream_(),
       reporter_(0)
 {
-    reporter_ = new TestReporter(outStream_);
+    reporter_ = new TapTestReporter(outStream_);
 }
 
 TestReporterTest::~TestReporterTest()
@@ -41,7 +41,7 @@ void TestReporterPrintsOKForPassedTest::run()
 			   1,
 			   "MyFakeTest");
 
-    if("OK 1 - MyFakeTest\n" != outStream_.str())
+    if("ok 1 - MyFakeTest\n" != outStream_.str())
 	throw TestCase::TestFailed();
 }
 
@@ -57,7 +57,7 @@ void TestReporterPrintsNOTOKForFailedTest::run()
 			   2,
 			   "MyFakeFailedTest");
 
-    if("NOT OK 2 - MyFakeFailedTest\n" != outStream_.str())
+    if("not ok 2 - MyFakeFailedTest\n" != outStream_.str())
 	throw TestCase::TestFailed();
 }
 
@@ -74,7 +74,7 @@ void TestReporterPrintsSKIPPEDForSkippedTest::run()
 			   3,
 			   "MyFakeSkippedTest");
 
-    if("SKIPPED 3 - MyFakeSkippedTest\n" != outStream_.str())
+    if("not ok 3 - MyFakeSkippedTest # SKIP\n" != outStream_.str())
 	throw TestCase::TestFailed();
 }
 

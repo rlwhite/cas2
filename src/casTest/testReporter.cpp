@@ -7,28 +7,7 @@ TestReporter::TestReporter(std::ostream& outStream)
 TestReporter::~TestReporter()
 {}
 
-void TestReporter::printPlan(size_t testCount)
+std::ostream& TestReporter::outStream()
 {
-    out_ << "1.."
-	 << testCount << std::endl;
-}
-
-void TestReporter::printResult(TestResult::Result res,
-			       size_t testNumber,
-			       const std::string& testName)
-{
-    out_ << TestResult::toString(res)
-	 << " " << testNumber
-	 << " - " << testName
-	 << std::endl;
-}
-
-void TestReporter::printSummary(size_t testsRan,
-				size_t testsFailed,
-				size_t testsSkipped)
-{
-    out_ << "Tests ran: " << testsRan
-	 << "\n\t" << "FAILED: " << testsFailed
-	 << "\n\t" << "SKIPPED: " << testsSkipped
-	 << std::endl;
+    return out_;
 }

@@ -2,10 +2,9 @@
 #include "testCase.h"
 #include "basicTests.h"
 #include "basicTestTests.h"
-#include "testResultTests.h"
+#include "tapTestReporter.h"
 #include "testRunner.h"
 #include "testRunnerTests.h"
-#include "testReporter.h"
 #include "testReporterTests.h"
 
 #include <iostream>
@@ -25,9 +24,6 @@ void createTests(std::vector<TestCase*>& tests)
     tests.push_back(new TestRunnerReportsNoFailuresWhenAllTestsPass());
     tests.push_back(new TestRunnerReportsAFailureWhenATestFails());
     tests.push_back(new TestRunnerReportsNoFailuresWhenAllTestsPassOrSkip());
-    tests.push_back(new TestResultToStringReturnsPassedForPassed());
-    tests.push_back(new TestResultToStringReturnsFailedForFailed());
-    tests.push_back(new TestResultToStringReturnsSkippedForSkipped());
     tests.push_back(new TestReporterPrintsTestPlan());
     tests.push_back(new TestReporterPrintsOKForPassedTest());
     tests.push_back(new TestReporterPrintsNOTOKForFailedTest());
@@ -49,7 +45,7 @@ int main(int argc, const char* const argv[])
 
     createTests(tests);
 
-    TestRunner runner(new TestReporter());
+    TestRunner runner(new TapTestReporter());
     runner.runTests(tests);
 
     int errCount(runner.getFailed());
