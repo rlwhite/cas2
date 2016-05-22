@@ -28,5 +28,4 @@ private:
     std::string name_;
 };
 
-
 #endif //TESTCASE_H

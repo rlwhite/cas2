@@ -1,4 +1,4 @@
-#include "testReporterTests.h"
+#include "tapTestReporterTests.h"
 
 #include "tapTestReporter.h"
 #include "testResult.h"
@@ -24,7 +24,7 @@ TestReporterPrintsTestPlan::TestReporterPrintsTestPlan()
 void TestReporterPrintsTestPlan::run()
 {
     reporter_->printPlan(10);
-
+    
     if("1..10\n" != outStream_.str())
 	throw TestCase::TestFailed();
 }

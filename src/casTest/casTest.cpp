@@ -1,11 +1,10 @@
-
 #include "testCase.h"
 #include "basicTests.h"
 #include "basicTestTests.h"
 #include "tapTestReporter.h"
 #include "testRunner.h"
 #include "testRunnerTests.h"
-#include "testReporterTests.h"
+#include "tapTestReporterTests.h"
 
 #include <iostream>
 #include <memory>

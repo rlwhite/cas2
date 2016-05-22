@@ -27,19 +27,6 @@ size_t TestRunner::getSkipped() const
     return skipped_;
 }
 
-void TestRunner::runTests(std::vector<TestCase*>& tests)
-{
-    printHeader(tests.size());
-	
-    testNumber_ = 0;
-
-    for(TestCase* t : tests)
-	printTestResult(t->name(),
-			runTest(t));
-    
-    printSummary(tests.size(), failed_, skipped_);
-}
-
 void TestRunner::printHeader(size_t testCount) const
 {
     reporter_->printPlan(testCount);
@@ -72,6 +59,19 @@ TestResult::Result TestRunner::runTest(TestCase* test)
     test->tearDown();
 
     return res;
+}
+
+void TestRunner::runTests(std::vector<TestCase*>& tests)
+{
+    printHeader(tests.size());
+	
+    testNumber_ = 0;
+
+    for(TestCase* t : tests)
+	printTestResult(t->name(),
+			runTest(t));
+    
+    printSummary(tests.size(), failed_, skipped_);
 }
 
 TestResult::Result TestRunner::tryTest(TestCase* test)
