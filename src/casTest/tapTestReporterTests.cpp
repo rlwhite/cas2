@@ -25,8 +25,7 @@ void TestReporterPrintsTestPlan::run()
 {
     reporter_->printPlan(10);
     
-    if("1..10\n" != outStream_.str())
-	throw TestCase::TestFailed();
+    EXPECT_TRUE("1..10\n" == outStream_.str());
 }
 
 TestReporterPrintsOKForPassedTest::TestReporterPrintsOKForPassedTest()
@@ -41,8 +40,7 @@ void TestReporterPrintsOKForPassedTest::run()
 			   1,
 			   "MyFakeTest");
 
-    if("ok 1 - MyFakeTest\n" != outStream_.str())
-	throw TestCase::TestFailed();
+    EXPECT_TRUE("ok 1 - MyFakeTest\n"== outStream_.str());
 }
 
 TestReporterPrintsNOTOKForFailedTest::TestReporterPrintsNOTOKForFailedTest()
@@ -57,8 +55,7 @@ void TestReporterPrintsNOTOKForFailedTest::run()
 			   2,
 			   "MyFakeFailedTest");
 
-    if("not ok 2 - MyFakeFailedTest\n" != outStream_.str())
-	throw TestCase::TestFailed();
+    EXPECT_TRUE("not ok 2 - MyFakeFailedTest\n" == outStream_.str());
 }
 
 TestReporterPrintsSKIPPEDForSkippedTest::
@@ -74,8 +71,7 @@ void TestReporterPrintsSKIPPEDForSkippedTest::run()
 			   3,
 			   "MyFakeSkippedTest");
 
-    if("not ok 3 - MyFakeSkippedTest # SKIP\n" != outStream_.str())
-	throw TestCase::TestFailed();
+    EXPECT_TRUE("not ok 3 - MyFakeSkippedTest # SKIP\n" == outStream_.str());
 }
 
 TestReporterPrintsTestSummary::TestReporterPrintsTestSummary()
@@ -90,7 +86,6 @@ void TestReporterPrintsTestSummary::run()
 			    1,
 			    2);
 
-    if("Tests ran: 10\n\tFAILED: 1\n\tSKIPPED: 2\n" !=
-       outStream_.str())
-	throw TestCase::TestFailed();
+    EXPECT_TRUE("Tests ran: 10\n\tFAILED: 1\n\tSKIPPED: 2\n" ==
+		outStream_.str());
 }

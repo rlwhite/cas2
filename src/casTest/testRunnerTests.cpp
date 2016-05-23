@@ -75,8 +75,7 @@ void TestRunnerReportsAFailureWhenATestFails::run()
     
     int errCount(runner_.getFailed());
     
-    if(1 != errCount)
-	throw TestCase::TestFailed();
+    EXPECT_TRUE(1 == errCount);
 }
 
 TestRunnerReportsNoFailuresWhenAllTestsPass::
@@ -100,8 +99,7 @@ void TestRunnerReportsNoFailuresWhenAllTestsPass::run()
 {
     TestRunnerTest::run();
     
-    if(0 != runner_.getFailed())
-	throw TestCase::TestFailed();
+    EXPECT_TRUE(0 == runner_.getFailed());
 }
 
 TestRunnerReportsNoFailuresWhenAllTestsPassOrSkip::
@@ -123,8 +121,7 @@ void TestRunnerReportsNoFailuresWhenAllTestsPassOrSkip::run()
 {
     TestRunnerTest::run();
     
-    if(0 != runner_.getFailed())
-	throw TestCase::TestFailed();
+    EXPECT_TRUE(0 == runner_.getFailed());
 }
 
 

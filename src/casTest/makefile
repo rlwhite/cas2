@@ -14,6 +14,7 @@ SRCS := \
  basicTestTests.cpp \
  tapTestReporter.cpp \
  testCase.cpp \
+ testExceptionTests.cpp \
  tapTestReporterTests.cpp \
  testReporter.cpp \
  testResult.cpp \

@@ -2,6 +2,7 @@
 #include "basicTests.h"
 #include "basicTestTests.h"
 #include "tapTestReporter.h"
+#include "testExceptionTests.h"
 #include "testRunner.h"
 #include "testRunnerTests.h"
 #include "tapTestReporterTests.h"
@@ -28,6 +29,8 @@ void createTests(std::vector<TestCase*>& tests)
     tests.push_back(new TestReporterPrintsNOTOKForFailedTest());
     tests.push_back(new TestReporterPrintsSKIPPEDForSkippedTest());
     tests.push_back(new TestReporterPrintsTestSummary());
+    
+    tests.push_back(new TestExceptionContainsFileAndLineInfo());
 }
 
 void deleteTests(std::vector<TestCase*>& tests)

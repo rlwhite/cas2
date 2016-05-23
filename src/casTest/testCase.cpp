@@ -1,5 +1,11 @@
 #include "testCase.h"
 
+TestCase::TestFailed::TestFailed(const char* const file,
+				   size_t line)
+    : src_(file),
+      line_(line)
+{}
+
 TestCase::~TestCase()
 {}
 

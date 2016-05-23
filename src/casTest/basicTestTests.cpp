@@ -1,4 +1,6 @@
 #include "basicTestTests.h"
+#include "testCase.h"
+
 
 PassingTestThrowsNoExceptions::PassingTestThrowsNoExceptions()
 {
@@ -13,7 +15,7 @@ void PassingTestThrowsNoExceptions::run()
     }
     catch(...)
     {
-	throw TestCase::TestFailed();
+	throw TestCase::TestFailed(__FILE__, __LINE__);
     }
 }
 
@@ -35,8 +37,7 @@ void FailingTestThrowsTestFailed::run()
 	success = true;
     }
     
-    if(!success)
-	throw TestCase::TestFailed();
+    EXPECT_TRUE(success);
 }
 
 SkippedTestThrowsTestSkipped::SkippedTestThrowsTestSkipped()
@@ -46,17 +47,5 @@ SkippedTestThrowsTestSkipped::SkippedTestThrowsTestSkipped()
 
 void SkippedTestThrowsTestSkipped::run()
 {
-    bool success(false);
-    
-    try
-    {
-	SkippedTest::run();
-    }
-    catch(const TestCase::TestSkipped& x)
-    {
-	success = true;
-    }
-    
-    if(!success)
-	throw TestCase::TestFailed();
+    EXPECT_THROWS(TestCase::TestSkipped, SkippedTest::run());
 }

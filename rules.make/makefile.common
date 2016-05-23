@@ -34,7 +34,7 @@ CFLAGS += -D_XOPEN_SOURCE=700
 
 INCLUDES += -I$(CAS_DIR)/include
 
-COMPILE.cc = $(CXX) -std=c++11 $(INCLUDES) $(DEPFLAGS) $(CFLAGS) \
+COMPILE.cc = $(CXX) -g -std=c++11 $(INCLUDES) $(DEPFLAGS) $(CFLAGS) \
              $(CPPFLAGS) $(TARGET_ARCH) -c
 POSTCOMPILE = mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d
 
