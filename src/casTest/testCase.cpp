@@ -1,10 +1,20 @@
 #include "testCase.h"
 
 TestCase::TestFailed::TestFailed(const char* const file,
-				   size_t line)
+				 size_t line,
+				 const char* const msg)
     : src_(file),
-      line_(line)
+      line_(line),
+      msg_(msg)
 {}
+
+TestCase::TestFailed::~TestFailed() throw()
+{}
+
+const char* TestCase::TestFailed::what() const
+{
+    return msg_;
+}
 
 TestCase::~TestCase()
 {}

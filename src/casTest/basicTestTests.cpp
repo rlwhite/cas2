@@ -9,6 +9,8 @@ PassingTestThrowsNoExceptions::PassingTestThrowsNoExceptions()
 
 void PassingTestThrowsNoExceptions::run()
 {
+    EXPECT_NOTHROW(PassingTest::run());
+/*
     try
     {
 	PassingTest::run();
@@ -17,6 +19,7 @@ void PassingTestThrowsNoExceptions::run()
     {
 	throw TestCase::TestFailed(__FILE__, __LINE__);
     }
+*/
 }
 
 FailingTestThrowsTestFailed::FailingTestThrowsTestFailed()
@@ -26,6 +29,8 @@ FailingTestThrowsTestFailed::FailingTestThrowsTestFailed()
 
 void FailingTestThrowsTestFailed::run()
 {
+    EXPECT_THROWS(TestCase::TestFailed, FailingTest::run());
+/*
     bool success(false);
     
     try
@@ -38,6 +43,7 @@ void FailingTestThrowsTestFailed::run()
     }
     
     EXPECT_TRUE(success);
+*/
 }
 
 SkippedTestThrowsTestSkipped::SkippedTestThrowsTestSkipped()

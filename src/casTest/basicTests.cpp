@@ -15,7 +15,9 @@ FailingTest::FailingTest()
 
 void FailingTest::run()
 {
-    throw TestFailed(__FILE__, __LINE__);
+    throw TestFailed(__FILE__,
+		     __LINE__,
+		     "This is a failing test.");
 }
 
 SkippedTest::SkippedTest()

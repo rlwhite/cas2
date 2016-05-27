@@ -31,6 +31,14 @@ void createTests(std::vector<TestCase*>& tests)
     tests.push_back(new TestReporterPrintsTestSummary());
     
     tests.push_back(new TestExceptionContainsFileAndLineInfo());
+
+    tests.push_back(new ExpectTrueExceptionContainsAppropriateMessage());
+    tests.push_back(new ExpectFalseExceptionContainsAppropriateMessage());
+    tests.push_back(new ExpectEqualExceptionContainsAppropriateMessage());
+    tests.push_back(new ExpectNotEqualExceptionContainsAppropriateMessage());
+
+    tests.push_back(new UnexpectedExceptionContainsAppropriateMessage());
+    tests.push_back(new UncaughtExceptionExceptionContainsAppropriateMessage());
 }
 
 void deleteTests(std::vector<TestCase*>& tests)
