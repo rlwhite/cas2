@@ -61,6 +61,26 @@ private:
 				            __LINE__,        \
                                             #v1 " == " #v2)
 
+#define EXPECT_LT(v1, v2)				           \
+    if(!(v1 < v2)) throw TestCase::TestFailed(__FILE__,	           \
+                                              __LINE__,	           \
+                                              #v1 " is not < " #v2)
+
+#define EXPECT_LE(v1, v2)				             \
+    if(!(v1 <= v2)) throw TestCase::TestFailed(__FILE__,	     \
+                                               __LINE__,	     \
+                                               #v1 " is not <= " #v2)
+
+#define EXPECT_GT(v1, v2)				           \
+    if(!(v1 > v2)) throw TestCase::TestFailed(__FILE__,	           \
+                                              __LINE__,	           \
+                                              #v1 " is not > " #v2)
+
+#define EXPECT_GE(v1, v2)				             \
+    if(!(v1 >= v2)) throw TestCase::TestFailed(__FILE__,	     \
+                                               __LINE__,	     \
+                                               #v1 " is not >= " #v2)
+
 #define EXPECT_THROWS(except, func)                                  \
     bool success(false);                                             \
                                                                      \

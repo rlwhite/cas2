@@ -112,6 +112,102 @@ void ExpectNotEqualExceptionContainsAppropriateMessage::run()
     EXPECT_TRUE(success);
 }
 
+ExpectLTExceptionContainsAppropriateMessage::
+ExpectLTExceptionContainsAppropriateMessage()
+    : TestCase()
+{
+    setName("ExpectLTExceptionContainsAppropriateMessage");
+}
+
+void ExpectLTExceptionContainsAppropriateMessage::run()
+{
+    bool success(false);
+
+    try
+    {
+	EXPECT_LT(0, 0);
+    }
+    catch(const TestCase::TestFailed& x)
+    {
+	success = true;
+	EXPECT_EQ("0 is not < 0", x.what());
+    }
+
+    EXPECT_TRUE(success);
+}
+
+ExpectLEExceptionContainsAppropriateMessage::
+ExpectLEExceptionContainsAppropriateMessage()
+    : TestCase()
+{
+    setName("ExpectLEExceptionContainsAppropriateMessage");
+}
+
+void ExpectLEExceptionContainsAppropriateMessage::run()
+{
+    bool success(false);
+
+    try
+    {
+	EXPECT_LE(1, 0);
+    }
+    catch(const TestCase::TestFailed& x)
+    {
+	success = true;
+	EXPECT_EQ("1 is not <= 0", x.what());
+    }
+
+    EXPECT_TRUE(success);
+}
+
+ExpectGTExceptionContainsAppropriateMessage::
+ExpectGTExceptionContainsAppropriateMessage()
+    : TestCase()
+{
+    setName("ExpectGTExceptionContainsAppropriateMessage");
+}
+
+void ExpectGTExceptionContainsAppropriateMessage::run()
+{
+    bool success(false);
+
+    try
+    {
+	EXPECT_GT(0, 0);
+    }
+    catch(const TestCase::TestFailed& x)
+    {
+	success = true;
+	EXPECT_EQ("0 is not > 0", x.what());
+    }
+
+    EXPECT_TRUE(success);
+}
+
+ExpectGEExceptionContainsAppropriateMessage::
+ExpectGEExceptionContainsAppropriateMessage()
+    : TestCase()
+{
+    setName("ExpectGEExceptionContainsAppropriateMessage");
+}
+
+void ExpectGEExceptionContainsAppropriateMessage::run()
+{
+    bool success(false);
+
+    try
+    {
+	EXPECT_GE(0, 1);
+    }
+    catch(const TestCase::TestFailed& x)
+    {
+	success = true;
+	EXPECT_EQ("0 is not >= 1", x.what());
+    }
+
+    EXPECT_TRUE(success);
+}
+
 UnexpectedExceptionContainsAppropriateMessage::
 UnexpectedExceptionContainsAppropriateMessage()
     : TestCase()

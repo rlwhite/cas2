@@ -38,6 +38,33 @@ struct ExpectNotEqualExceptionContainsAppropriateMessage : TestCase
     void run();
 };
 
+struct ExpectLTExceptionContainsAppropriateMessage : TestCase
+{
+    ExpectLTExceptionContainsAppropriateMessage();
+
+    void run();
+};
+
+struct ExpectLEExceptionContainsAppropriateMessage : TestCase
+{
+    ExpectLEExceptionContainsAppropriateMessage();
+
+    void run();
+};
+
+struct ExpectGTExceptionContainsAppropriateMessage : TestCase
+{
+    ExpectGTExceptionContainsAppropriateMessage();
+
+    void run();
+};
+
+struct ExpectGEExceptionContainsAppropriateMessage : TestCase
+{
+    ExpectGEExceptionContainsAppropriateMessage();
+
+    void run();
+};
 
 struct UncaughtExceptionExceptionContainsAppropriateMessage : TestCase
 {
