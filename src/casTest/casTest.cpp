@@ -14,8 +14,6 @@
 #include <vector>
 using namespace std;
 
-#define print(msg) cout << msg << endl
-
 void createTests(std::vector<TestCase*>& tests)
 {
     tests.push_back(new PassingTestThrowsNoExceptions());
@@ -46,6 +44,8 @@ void createTests(std::vector<TestCase*>& tests)
 
     tests.push_back(new UnexpectedExceptionContainsAppropriateMessage());
     tests.push_back(new UncaughtExceptionExceptionContainsAppropriateMessage());
+
+    tests.push_back(new TestRunnerReportsNoFailuresWhenAllTestsSkipped());
 }
 
 void deleteTests(std::vector<TestCase*>& tests)

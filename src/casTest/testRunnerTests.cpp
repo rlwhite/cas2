@@ -124,4 +124,30 @@ void TestRunnerReportsNoFailuresWhenAllTestsPassOrSkip::run()
     EXPECT_TRUE(0 == runner_.getFailed());
 }
 
+TestRunnerReportsNoFailuresWhenAllTestsSkipped::
+TestRunnerReportsNoFailuresWhenAllTestsSkipped()
+    : TestRunnerTest()
+{
+    setName("TestRunnerReportsNoFailuresWhenAllTestsSkipped");
+}
 
+void TestRunnerReportsNoFailuresWhenAllTestsSkipped::setUp()
+{
+   addTest(new SkippedTest());
+   addTest(new SkippedTest());
+   addTest(new SkippedTest());
+   addTest(new SkippedTest());
+   addTest(new SkippedTest());
+   addTest(new SkippedTest());
+   addTest(new SkippedTest());
+   addTest(new SkippedTest());
+   addTest(new SkippedTest());
+   addTest(new SkippedTest());
+}
+
+void TestRunnerReportsNoFailuresWhenAllTestsSkipped::run()
+{
+    TestRunnerTest::run();
+
+    EXPECT_TRUE(0 == runner_.getFailed());
+}

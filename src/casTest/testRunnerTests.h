@@ -46,4 +46,12 @@ struct TestRunnerReportsNoFailuresWhenAllTestsPassOrSkip : TestRunnerTest
     void run();
 };
 
+struct TestRunnerReportsNoFailuresWhenAllTestsSkipped : TestRunnerTest
+{
+    TestRunnerReportsNoFailuresWhenAllTestsSkipped();
+
+    void setUp();
+    void run();
+};
+
 #endif //TESTRUNNERTESTS

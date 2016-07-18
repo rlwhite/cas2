@@ -6,7 +6,7 @@
 >* <del>FailingTestThrowsTestFailed</del>
 >* <del>SkippedTestThrowsTestSkipped</del>
 >* <del>TestRunnerReportsNoFailuresWhenAllTestsPass</del>
->* TestRunnerReportsNoFailuresWhenAllTestsSkipped
+>* <del>TestRunnerReportsNoFailuresWhenAllTestsSkipped
 >* TestRunnerReportsSkipWhenTestIsSkipped
 >* TestRunnerReportsNoSkipsWhenAllTestsPass
 >* TestRunnerReportsNoSkipsWhenAllTestsFail
@@ -44,4 +44,13 @@ error messages</del>
 * Rework the make system to be fully independent
 * Consider whether or not *casTest* should be built into a single executable tool (rather than multiple tools).
 * Consider replace *out_* member of *TestReporter* with something else.
+
+* Create a library loader/plugin class to wrap the dynamic library routines we need for the plugins.
+>* *void createTests(std::vector<TestCase*>&)*
+>* *void deleteTests(std::vector<TestCase*>&)*
+>* *TestReporter\* createTestReporter()*
+>* *void deleteTestReporter(TestReporter\*)*
+
+* Move all self-tests to a shared library so that the self test functions like any other test to be executed.
+
 
