@@ -1,4 +1,4 @@
-C# The "Clean And Simple" (CAS) software framework, tools, and documentation
+# The "Clean And Simple" (CAS) software framework, tools, and documentation
 # are distributed under the terms of the MIT license a copy of which is
 # included with this package (see the file "LICENSE" in the CAS poject tree's
 # root directory).  CAS may be used for any purpose, including commercial
@@ -30,6 +30,9 @@ C# The "Clean And Simple" (CAS) software framework, tools, and documentation
 include $(CAS_DIR)/rules.make/makefile.common
 
 INSTALL_DIR := $(CAS_LIB)
+
+CFLAGS +=  -fPIC
+LFLAGS +=  -shared
 
 $(TGT): $(OBJS) $(TDEPS)
 	$(CXX) -o $@ $(INCLUDES) $(LFLAGS) $(LPATHS) $(OBJS) $(LIBS)

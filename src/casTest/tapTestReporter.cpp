@@ -33,7 +33,7 @@ void TapTestReporter::printSummary(size_t testsRan,
 
 std::string TapTestReporter::resultToString(TestResult::Result result)
 {
-    static const std::string resString[3] = {"ok", "not ok", "not ok"};
+    static const char* resString[3] = {"ok", "not ok", "not ok"};
 
     return resString[result];
 }

@@ -46,6 +46,10 @@ void createTests(std::vector<TestCase*>& tests)
     tests.push_back(new UncaughtExceptionExceptionContainsAppropriateMessage());
 
     tests.push_back(new TestRunnerReportsNoFailuresWhenAllTestsSkipped());
+    tests.push_back(new TestRunnerReportsSkipWhenTestIsSkipped());
+    tests.push_back(new TestRunnerReportsNoSkipsWhenAllTestsPass());
+    tests.push_back(new TestRunnerReportsNoSkipsWhenAllTestsFail());
+    tests.push_back(new TestRunnerReportsNoSkipsWhenAllTestsPassOrFail());
 }
 
 void deleteTests(std::vector<TestCase*>& tests)

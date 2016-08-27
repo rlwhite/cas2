@@ -6,12 +6,12 @@
 >* <del>FailingTestThrowsTestFailed</del>
 >* <del>SkippedTestThrowsTestSkipped</del>
 >* <del>TestRunnerReportsNoFailuresWhenAllTestsPass</del>
->* <del>TestRunnerReportsNoFailuresWhenAllTestsSkipped
->* TestRunnerReportsSkipWhenTestIsSkipped
->* TestRunnerReportsNoSkipsWhenAllTestsPass
->* TestRunnerReportsNoSkipsWhenAllTestsFail
+>* <del>TestRunnerReportsNoFailuresWhenAllTestsSkipped</del>
+>* <del>TestRunnerReportsSkipWhenTestIsSkipped</del>
+>* <del>TestRunnerReportsNoSkipsWhenAllTestsPass</del>
+>* <del>TestRunnerReportsNoSkipsWhenAllTestsFail</del>
 >* <del>TestRunnerReportsNoFailuresWhenAllTestsPassOrSkip</del>
->* TestRunnerReportsNoSkipsWhenAllTestsPassOrFail
+>* <del>TestRunnerReportsNoSkipsWhenAllTestsPassOrFail</del>
 
 * TestReporter tests:
 >* <del>TestReporterPrintsOKForPassedTest</del>
