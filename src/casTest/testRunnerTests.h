@@ -9,9 +9,9 @@
 struct TestRunnerTest : TestCase
 {
     TestRunnerTest();
-    ~TestRunnerTest();
 
     void setUp();
+    void tearDown();
     void run();
 
 protected:

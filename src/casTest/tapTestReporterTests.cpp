@@ -6,11 +6,14 @@
 TestReporterTest::TestReporterTest()
     : outStream_(),
       reporter_(0)
+{}
+
+void TestReporterTest::setUp()
 {
     reporter_ = new TapTestReporter(outStream_);
 }
 
-TestReporterTest::~TestReporterTest()
+void TestReporterTest::tearDown()
 {
     delete reporter_;
 }

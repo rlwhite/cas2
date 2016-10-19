@@ -10,7 +10,9 @@ struct TestReporter;
 struct TestReporterTest : TestCase
 {
     TestReporterTest();
-    virtual ~TestReporterTest();
+
+    void setUp();
+    void tearDown();
 
 protected:
     std::stringstream outStream_;

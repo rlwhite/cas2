@@ -36,19 +36,19 @@ TestRunnerTest::TestRunnerTest()
       tests_()
 {}
 
-TestRunnerTest::~TestRunnerTest()
-{
-    for(TestCase* t : tests_)
-	delete t;
-    
-    tests_.clear();
-}
-
 void TestRunnerTest::setUp()
 {
     addTest(new PassingTest());
     addTest(new FailingTest());
     addTest(new SkippedTest());
+}
+
+void TestRunnerTest::tearDown()
+{
+    for(TestCase* t : tests_)
+	delete t;
+    
+    tests_.clear();
 }
 
 void TestRunnerTest::run()

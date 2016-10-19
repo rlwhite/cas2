@@ -7,10 +7,10 @@
 #include "testRunnerTests.h"
 #include "tapTestReporterTests.h"
 
-#include <iostream>
-#include <memory>
-#include <sstream>
-#include <string>
+//#include <iostream>
+//#include <memory>
+//#include <sstream>
+//#include <string>
 #include <vector>
 using namespace std;
 
