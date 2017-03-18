@@ -12,6 +12,9 @@ SRCS := \
  casTest.cpp \
  basicTests.cpp \
  basicTestTests.cpp \
+ command.cpp \
+ commandRunner.cpp \
+ commandRunnerTests.cpp \
  tapTestReporter.cpp \
  testCase.cpp \
  testExceptionTests.cpp \

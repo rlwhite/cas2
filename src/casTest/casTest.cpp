@@ -1,6 +1,7 @@
 #include "testCase.h"
 #include "basicTests.h"
 #include "basicTestTests.h"
+#include "commandRunnerTests.h"
 #include "tapTestReporter.h"
 #include "testExceptionTests.h"
 #include "testRunner.h"
@@ -50,6 +51,8 @@ void createTests(std::vector<TestCase*>& tests)
     tests.push_back(new TestRunnerReportsNoSkipsWhenAllTestsPass());
     tests.push_back(new TestRunnerReportsNoSkipsWhenAllTestsFail());
     tests.push_back(new TestRunnerReportsNoSkipsWhenAllTestsPassOrFail());
+
+    tests.push_back(new CommandRunnerExecutesDoNothingCommand());
 }
 
 void deleteTests(std::vector<TestCase*>& tests)
